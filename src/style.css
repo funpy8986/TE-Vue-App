@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+:root {
+    --font-serif: 'Merriweather', serif;
+    --font-sans: 'Source Sans Pro', sans-serif;
+    
+    --text-color-light: rgba(0, 0, 0, 0.84);
+    --meta-text-color-light: rgba(0, 0, 0, 0.6);
+    --accent-color-light: #0073e6;
+    --background-color-light: #ffffff;
+    --border-color-light: #e8e8e8;
+    --card-bg-light: #f9f9f9;
+
+    --text-color-dark: rgba(255, 255, 255, 0.87);
+    --meta-text-color-dark: rgba(255, 255, 255, 0.6);
+    --accent-color-dark: #4dabf7;
+    --background-color-dark: #121212;
+    --border-color-dark: #333;
+    --card-bg-dark: #1e1e1e;
+
+    --text-color: var(--text-color-light);
+    --meta-text-color: var(--meta-text-color-light);
+    --accent-color: var(--accent-color-light);
+    --background-color: var(--background-color-light);
+    --border-color: var(--border-color-light);
+    --card-bg: var(--card-bg-light);
+}
+
+html[data-theme='dark'] {
+    --text-color: var(--text-color-dark);
+    --meta-text-color: var(--meta-text-color-dark);
+    --accent-color: var(--accent-color-dark);
+    --background-color: var(--background-color-dark);
+    --border-color: var(--border-color-dark);
+    --card-bg: var(--card-bg-dark);
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#app {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        grid-template-columns: 2fr 1fr;
+        gap: 60px;
+        padding: 40px;
+    }
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hamburger-menu {
+  display: none; /* Hidden by default */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 10px; /* Align with title */
+  color: var(--text-color);
+}
+
+.sidebar-overlay {
+  display: none; /* Hidden by default */
+}
+
+main {
+    max-width: 740px;
+}
+
+.page-header {
+    position: relative;
+}
+
+.page-header h1 {
+    font-family: var(--font-sans);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    margin-top: 0; /* Adjust for header-top-row */
+}
+
+.page-header p.subtitle {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--meta-text-color);
+    margin-top: 0;
+}
+
+.page-header .source-meta {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--meta-text-color);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+h2 {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 0; /* Ensure h2 is at the left edge */
+    padding-left: 0; /* Ensure h2 is at the left edge */
+}
+
+.article-body {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.7;
+    text-align: left;
+}
+
+@media (min-width: 1024px) {
+    .article-body {
+        text-align: justify;
+    }
+}
+
+.article-body p {
+    margin-bottom: 1.5em;
+}
+
+.summary-list ul, .critical-review-list ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.summary-list li, .critical-review-list li {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    margin-bottom: 15px;
+    padding-left: 25px; /* Consistent indentation for list item content */
+    position: relative; /* Required for absolute positioning of icons */
+}
+
+.summary-list li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    top: 0.25em; /* Align vertically with critical review icon */
+    color: var(--accent-color);
+}
+
+.critical-review-list li::before {
+    /* content: '🤔'; */ /* Removed emoji */
+    position: absolute;
+    left: 0;
+}
+
+
+
+aside {
+    width: 100%;
+}
+
+.sidebar-sticky-container {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 40px;
+}
+
+@media (min-width: 1024px) {
+    .sidebar-sticky-container {
+        height: calc(100vh - 40px); /* Match top: 40px */
+        overflow-y: auto;
+    }
+    
+    .sidebar-content {
+        border-left: 1px solid var(--border-color);
+        padding-left: 40px;
+        padding-top: 40px; /* Aligned with Article Text h2's margin-top */
+    }
+    .sidebar-content h2 {
+        margin-top: 0; /* Ensure no extra top margin */
+    }
+}
+
+@media (max-width: 1023px) {
+    .container.sidebar-open {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hamburger-menu {
+      display: block;
+    }
+
+    .sidebar-overlay {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1999; /* Below sidebar */
+    }
+
+    aside {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 80%;
+      max-width: 320px;
+      height: 100%;
+      background-color: var(--background-color);
+      z-index: 2000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container.sidebar-open aside {
+      transform: translateX(0);
+    }
+
+    .sidebar-sticky-container {
+      position: static;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .sidebar-content {
+        border-left: none;
+        padding: 20px;
+        margin-top: 0;
+    }
+}
+
+.sidebar-content h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.vocab-list {
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding-bottom: 50vh;
+}
+
+.vocab-item.highlight {
+    animation: highlight-fade 2s ease-in-out;
+}
+
+@keyframes highlight-fade {
+    0% { background-color: rgba(255, 255, 0, 0.5); }
+    100% { background-color: var(--card-bg); }
+}
+
+html[data-theme='dark'] .vocab-item.highlight {
+    animation: highlight-fade-dark 2s ease-in-out;
+}
+
+@keyframes highlight-fade-dark {
+    0% { background-color: rgba(255, 255, 0, 0.3); }
+    100% { background-color: var(--card-bg); }
+}
+
+.clickable-term {
+    cursor: pointer;
+    color: var(--accent-color);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--accent-color);
+    transition: background-color 0.3s;
+}
+
+.clickable-term:hover {
+    background-color: rgba(0, 115, 230, 0.1);
+}
+html[data-theme='dark'] .clickable-term:hover {
+    background-color: rgba(77, 171, 247, 0.15);
+}
+
+.icon {
+  vertical-align: -0.125em; /* Align with text baseline */
+  /* margin-right: 0.1em; */ /* Removed space after icon, now handled inline */
+}
+
+.icon-inline {
+  vertical-align: -0.125em; /* Align with text baseline */
+  margin-right: 0.5em; /* Space after icon */
+}
+
+.critical-review-list li::before {
+    /* content: '🤔'; */ /* Removed emoji */
+    position: absolute;
+    left: 0;
+}
+
+
+
+html[data-theme='dark'] .critical-review-list li::before {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>'); /* Feather Icon: help-circle */
+}
+
+
+
+/* Hide Scrollbar for Webkit browsers */
+.sidebar-sticky-container::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar */
+}
+
+/* Hide Scrollbar for Firefox */
+.sidebar-sticky-container {
+  scrollbar-width: none; /* Hide scrollbar */
+}
+
+/* Hide Scrollbar for IE/Edge (legacy) */
+.sidebar-sticky-container {
+  -ms-overflow-style: none; /* Hide scrollbar */
+}

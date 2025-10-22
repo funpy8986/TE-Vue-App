@@ -1,0 +1,138 @@
+{
+  "title": "Intel's last hope",
+  "subtitle": "To survive, the once-mighty chipmaker must break itself apart",
+  "source": "The Economist",
+  "audioUrl": "https://gitee.com/funpy/te/raw/master/060%20Business%20-%20Chipmaking%20in%20America.mp3",
+    "paragraphs": [
+    {
+      "en": "INTEL once set the pace of technological progress. Gordon Moore, one of its founders, predicted in 1965 that chips would get faster and cheaper with metronomic consistency. Over the decades Intel brought Moore’s Law to life, designing and building the processors that powered servers and, later, personal computers. Today it makes headlines for its turmoil more than its technology. On August 17th President Donald Trump demanded the resignation of Lip-Bu Tan, Intel’s boss, firing his shots in China, only to meet Mr Tan four days later after meeting him. Reports soon surfaced that the government was pursuing a 10% stake in the company, which would make it Intel’s largest shareholder. On August 20th SoftBank, a Japanese tech <span class=\"clickable-term\" data-term=\"Conglomerate\">conglomerate</span>, announced that it would invest $2bn in the company.",
+      "zh": "英特尔（Intel）曾一度引领着科技进步的步伐。其创始人之一戈登·摩尔（Gordon Moore）在1965年预言，芯片将以节拍器般的稳定节奏变得更快、更便宜。数十年来，英特尔将摩尔定律变为现实，设计并制造了驱动服务器、乃至后来个人电脑的处理器。而如今，它登上头条却更多是因为其内部的动荡，而非技术本身。8月17日，美国总统唐纳德·特朗普（Donald Trump）在中国隔空要求英特尔老板Lip-Bu Tan辞职，结果四天后又与他会面。此后不久便有报道浮出水面，称政府正寻求购入该公司10%的股份，这将使其成为英特尔最大的股东。8月20日，日本科技集团软银（SoftBank）宣布将向该公司投资20亿美元。"
+    },
+    {
+      "en": "The drama has refocused attention on Intel’s <span class=\"clickable-term\" data-term=\"Plight\">plight</span>. The company has missed nearly every big shift in its industry over the past two decades. It failed to profit from the rise of smartphones, was slow to adopt advanced lithography tools and has largely sat out the boom in artificial intelligence (AI). Between 2021 and 2024 revenue dropped by a third, from nearly $80bn to just over $50bn; last year it made a net loss of almost $20bn (see chart on next page). Over the past five years its market value has fallen by roughly half, to around $100bn. TSMC, which has stolen Intel’s crown as the world’s leading chip manufacturer, is worth ten times as much.",
+      "zh": "这场风波让人们的目光重新聚焦于英特尔的困境。在过去二十年里，该公司几乎错过了行业中的每一次重大变革。它未能从智能手机的崛起中获利，在采用先进光刻技术上行动迟缓，并且基本上缺席了人工智能（AI）的繁荣。从2021年到2024年，其收入下降了三分之一，从近800亿美元降至略高于500亿美元；去年，公司净亏损近200亿美元（见下页图表）。过去五年，其市值缩水了约一半，降至1000亿美元左右。而已经取代英特尔成为世界领先芯片制造商的台积电（TSMC），其市值是英特尔的十倍之多。"
+    },
+    {
+      "en": "Yet Intel still matters. As Mr Trump’s interest shows. The most advanced chips, vital for smartphones and AI, are now made almost entirely by TSMC. America’s tech giants depend on it. Such reliance on a single supplier—particularly one based in Taiwan—is risky. Intel is one of the few firms that could rival TSMC. But it will need more than government subsidies to do so. For it to recover its chipmaking <span class=\"clickable-term\" data-term=\"Prowess\">prowess</span>, Intel will need to break itself apart.",
+      "zh": "然而，英特尔依然举足轻重。正如特朗普总统的兴趣所示。对智能手机和人工智能至关重要的最先进芯片，如今几乎完全由台积电制造。美国的科技巨头们都依赖于它。这种对单一供应商的依赖——尤其是一个总部位于台湾的供应商——是充满风险的。英特尔是少数几家有潜力与台积电抗衡的公司之一。但要做到这一点，它需要的不仅仅是政府的补贴。为了恢复其芯片制造的实力，英特尔需要将自己拆分。"
+    },
+    {
+      "en": "Throughout its history Intel has designed and built its own chips. That integration let it use its manufacturing process to deliver better products even when its designs lagged behind. From the mid-2010s, however, repeated missteps in its manufacturing saw it fall behind TSMC. Deprived of that advantage, Intel’s processors became uncompetitive with those from AMD, a long-term rival which gave up on manufacturing long ago. In 2021 Intel, too, began outsourcing production of its most advanced chips to TSMC.",
+      "zh": "纵观其历史，英特尔一直坚持自己设计和制造芯片。这种一体化模式使其即便在设计落后时，也能利用其制造工艺来交付更优秀的产品。然而，从2010年代中期开始，其在制造上的屡屡失误导致它落后于台积电。失去了这一优势，英特尔的处理器在与AMD的竞争中变得毫无优势。AMD是其长期竞争对手，很久以前就放弃了制造业。2021年，英特尔也开始将其最先进芯片的生产外包给台积电。"
+    },
+    {
+      "en": "The erosion of Intel’s manufacturing leadership has coincided with fiercer competition in its market for designing processors. As recently as 2019 Intel controlled 84% of the global market for PC chips and 94% for servers. By 2024 those figures had fallen to 69% and 62%, respectively (see chart 2). AMD, using the x86 architecture pioneered by Intel, has developed better chips. Cloud giants such as Amazon, Google and Microsoft, which were once reliant on Intel, now design their own processors using outlines from Arm, a British company owned by SoftBank. In December Amazon said that half the service capacity it added in the preceding two years used its own silicon.",
+      "zh": "在英特尔制造领先地位被侵蚀的同时，其处理器设计市场的竞争也愈发激烈。就在2019年，英特尔还控制着全球PC芯片市场的84%和服务器市场的94%。到2024年，这些数字已分别降至69%和62%（见图表2）。使用英特尔开创的x86架构的AMD，已经开发出了更优秀的芯片。曾一度依赖英特尔的亚马逊、谷歌和微软等云计算巨头，现在也开始使用英国公司Arm（软银旗下）的蓝图来设计自己的处理器。去年12月，亚马逊表示，其在过去两年中新增的服务容量中，有一半使用了自家的芯片。"
+    },
+    {
+      "en": "Pat Gelsinger, Intel’s boss from 2021 to 2024, tried to reverse the slide. He split design and manufacturing into two units, allowing the product arm to shop around for the best manufacturer while opening Intel’s chip factories, called “fabs”, to outsiders. To build a contract-chipmaking business, known as a “<span class=\"clickable-term\" data-term=\"Foundry\">foundry</span>”, Mr Gelsinger then set about splurging $90bn on new fabs in four American states. He tapped private equity and bagged nearly $8bn in subsidies under America’s CHIPS Act to fund his vision. But the plan was thrown into disarray by a combination of technical problems at the foundry, which deterred external customers, and falling sales at the design arm.",
+      "zh": "帕特·基辛格（Pat Gelsinger），在2021年至2024年间担任英特尔老板，曾试图扭转颓势。他将设计和制造拆分为两个部门，允许产品部门寻找最佳制造商，同时向外部客户开放英特尔的芯片工厂（称为“fabs”）。为了建立一个合同制芯片制造业务，即“晶圆代工（foundry）”，基辛格随后着手投入900亿美元，在四个美国州新建晶圆厂。他利用了私募股权投资，并根据美国的《芯片法案》获得了近80亿美元的补贴以资助其愿景。但由于代工厂的技术问题吓退了外部客户，加上设计部门销售额的下滑，该计划陷入了混乱。"
+    },
+    {
+      "en": "<strong>Pat on his back</strong>",
+      "zh": "<strong>帕特的反思</strong>"
+    },
+    {
+      "en": "Mr Tan, who took over in March after Mr Gelsinger was sacked, seems to have different priorities. He has rightly identified that the company is <span class=\"clickable-term\" data-term=\"Bloated\">bloated</span>; at the end of 2024 it employed 109,000 people, nearly as many as Nvidia, the leading designer of AI chips, and TSMC combined. Mr Tan plans to cut Intel’s workforce by a quarter by the end of this year. When it comes to AI, he believes that the firm should focus not on designing chips for training models, an area that Nvidia dominates, but on inference, the task of running them. As for the foundry, last month Mr Tan scrapped projects in Germany and Poland, and pushed construction of Intel’s advanced fabs in Ohio back to the early 2030s. He also hinted that the company might retreat from leading-edge manufacturing if it cannot secure external customers.",
+      "zh": "在基辛格被解雇后，于今年三月接任的Tan先生，似乎有着不同的优先事项。他正确地认识到公司机构臃肿；2024年底，公司雇佣了109,000名员工，几乎与AI芯片领先设计商英伟达（Nvidia）和台积电的员工总数相当。Tan先生计划在今年年底前将英特尔的员工裁减四分之一。在人工智能方面，他认为公司不应专注于设计用于训练模型的芯片——这个领域由英伟达主导——而应专注于推理（inference），即运行模型的任务。至于晶圆代工业务，上个月Tan先生取消了在德国和波兰的项目，并将英特尔在俄亥俄州的先进晶圆厂的建设推迟到2030年代初。他还暗示，如果无法确保外部客户，公司可能会退出前沿制造领域。"
+    },
+    {
+      "en": "All that may help buy Intel time. Yet it lacks the boldness needed to save the company from fading into irrelevance. Evercore, an investment bank, reckons Intel’s design arm might be worth more than $100bn on its own. But it faces a crowded field and its products are no longer distinctive.",
+      "zh": "所有这些或许能为英特尔赢得时间。然而，这缺乏将公司从逐渐变得无足轻重的命运中拯救出来所必需的大胆魄力。投行Evercore估算，英特尔的设计部门单独拿出来可能价值超过1000亿美元。但它面临着一个拥挤的赛道，其产品也不再有独特性。"
+    },
+    {
+      "en": "Mr Tan could sell the division to another fabless chipmaker such as Broadcom while it still holds value and focus solely on the foundry, which is troubled but holds more long-term promise. Its newest “18A” process incorporates transistors that are ahead of TSMC’s, as well as a novel way of feeding power through the back of the chip to save space and energy. SemiAnalysis, a consultancy, reckons Intel will need to invest a bit over $50bn between 2025 and 2027 to make it competitive in leading-edge manufacturing. A sale of the design division would more than cover that.",
+      "zh": "Tan先生可以在设计部门尚有价值时将其出售给像博通（Broadcom）这样的另一家无厂半导体公司，然后专注于虽然陷入困境但更具长期前景的晶圆代工业务。其最新的“18A”工艺包含了比台积电更先进的晶体管，以及一种新颖的、通过芯片背面供电以节省空间和能源的方式。咨询公司SemiAnalysis估算，英特尔在2025年至2027年间需要投资略高于500亿美元，才能使其在前沿制造领域具有竞争力。出售设计部门的收入将足以覆盖这笔费用。"
+    },
+    {
+      "en": "Parting with the design business would help in other ways, too. Foundries must serve many customers using the same process. To do so they provide “process design kits”—the blueprints chipmakers use to design their products. TSMC’s kits are broad and easy to use. Intel still tunes its kits for its own products first. One veteran designer who has used both says the experience of working with outsiders. Ian Cutress, a semiconductor analyst, notes that Intel sought to buy that expertise with its attempted acquisition of Tower Semiconductor, an Israeli foundry, but the deal collapsed after Chinese regulators withheld approval.",
+      "zh": "剥离设计业务在其他方面也有帮助。晶圆代工厂必须使用相同的工艺为众多客户服务。为此，它们提供“工艺设计套件（process design kits）”——即芯片制造商用来设计其产品的蓝图。台积电的套件范围广泛且易于使用。而英特尔仍会首先为其自身产品调整其套件。一位同时使用过两家服务的老牌设计师谈到了与外部客户合作的经验。半导体分析师Ian Cutress指出，英特尔曾试图通过收购以色列代工厂高塔半导体（Tower Semiconductor）来购买这方面的专业知识，但在中国监管机构未予批准后，该交易以失败告终。"
+    },
+    {
+      "en": "By making its foundry truly independent, Intel may be better able to persuade other chip designers to work with it. More customers would, in turn, make Intel a more compelling choice. Foundries live or die by yield—the share of chips that function as intended. New processes start buggy and improve only with volume. Foundries typically need yields above 70% to break even; the current rate for Intel’s 18A process is reportedly closer to 10%.",
+      "zh": "通过使其晶圆代工业务真正独立，英特尔或许能更好地说服其他芯片设计师与其合作。更多的客户反过来又会使英特尔成为一个更有吸引力的选择。晶圆代工厂的生死取决于良率（yield）——即功能符合预期的芯片所占的比例。新工艺开始时总是问题多多，只有通过量产才能得到改善。代工厂通常需要超过70%的良率才能实现盈亏平衡；据报道，英特尔18A工艺目前的良率接近10%。"
+    },
+    {
+      "en": "America’s tech giants would certainly welcome another alternative to TSMC. Samsung, the only other contender in leading-edge chipmaking, recently secured a $16.5bn contract from Tesla, a car company, to make AI chips at a new fab in Texas. But the South Korean company has a reputation for being difficult with customers and has faced technical challenges of its own. Indeed, if Intel’s shareholders would rather pocket the proceeds of a sale of the design arm, it is possible that a consortium of would-be foundry customers could be persuaded to invest instead. SoftBank has also reportedly expressed interest in acquiring Intel’s manufacturing business.",
+      "zh": "美国的科技巨头们当然会欢迎台积电之外的另一个选择。三星（Samsung），作为前沿芯片制造领域唯一的另一位竞争者，最近从汽车公司特斯拉（Tesla）那里获得了一份价值165亿美元的合同，在德克萨斯州的一家新晶圆厂为其制造AI芯片。但这家韩国公司以对客户苛刻而闻名，并且自身也面临着技术挑战。事实上，如果英特尔的股东们更愿意将出售设计部门的收益收入囊中，那么说服一个由潜在代工客户组成的财团来投资也是有可能的。据报道，软银也已表示有兴趣收购英特尔的制造业务。"
+    },
+    {
+      "en": "Intel faces a difficult choice. A foundry-only business would certainly be a gamble. But the longer it <span class=\"clickable-term\" data-term=\"Dithers\">dithers</span>, the lower the chance of success. Intel’s greatness once lay in doing everything. Its contribution in future may come from doing one thing well: making chips.",
+      "zh": "英特尔面临着一个艰难的选择。一个纯晶圆代工的业务无疑是一场赌博。但它犹豫得越久，成功的机会就越低。英特尔的伟大曾在于无所不包。其未来的贡献，可能将来自于做好一件事：制造芯片。"
+    }
+  ],
+    "summaryPoints": [
+    "<strong>The Problem:</strong> Intel, once a leader, is in crisis after missing key industry shifts like mobile and AI, leading to massive financial losses and a collapse in market value compared to rivals like TSMC.",
+    "<strong>The Geopolitical Stake:</strong> Despite its struggles, Intel remains strategically vital for America as one of the few potential high-end chip manufacturing alternatives to Taiwan's TSMC.",
+    "<strong>The Failed Strategy:</strong> The previous CEO's plan to create an independent foundry business while also designing chips was a failure, plagued by technical issues and falling sales.",
+    "<strong>The Author's Prescription:</strong> The article argues for a radical solution: Intel must sell its valuable chip design division and focus all its resources on becoming a pure-play, independent foundry.",
+    "<strong>The Ultimate Justification:</strong> This painful break-up would provide the necessary capital, force the foundry to be truly customer-focused, and is presented as the only path to avoid fading into irrelevance."
+  ],
+    "criticalReviewPoints": [
+    "<strong>The \"Break-up\" Dilemma:</strong> The proposal to sell the design arm is a classic, high-risk corporate strategy. While compelling, the article presents it as the only option. A critical view might ask if less drastic paths, like strategic partnerships or a more gradual transformation, were too quickly dismissed.",
+    "<strong>Geopolitics vs. Business:</strong> The analysis is heavily framed by the US-China tech rivalry. This geopolitical pressure (e.g., government subsidies, political interest) complicates a purely business-driven decision, potentially forcing Intel's hand or limiting its strategic choices in ways a normal company wouldn't face.",
+    "<strong>Execution is Everything:</strong> The core problem has been execution (\"technical problems at the foundry,\" \"missteps in manufacturing\"). A structural change doesn't automatically fix a culture of poor execution. The biggest challenge isn't the strategy, but whether an independent Intel foundry can truly match TSMC's legendary efficiency and customer-centric model."
+  ],
+    "vocabulary": [
+    {
+      "term": "Plight",
+      "etymology": "From Old French 'pleit' (fold, manner of folding), which came to mean 'condition, state'. The negative sense developed in the 14th century.",
+      "definition": "(Noun) A dangerous, difficult, or otherwise unfortunate situation.",
+      "roleInText": "Sets the stage by framing Intel's situation as a serious crisis, not just a minor setback.",
+      "originalSentence": "The drama has refocused attention on Intel’s <strong>plight</strong>.",
+      "collocations": [
+        "the plight of the...",
+        "to highlight someone's plight"
+      ]
+    },
+    {
+      "term": "Prowess",
+      "etymology": "From Old French 'proesce' (valor, courage), from 'prou' (brave). It originally meant bravery in battle.",
+      "definition": "(Noun) Great skill, expertise, or ability in a particular activity or field.",
+      "roleInText": "Refers to the high level of manufacturing skill that Intel once had and now needs to regain.",
+      "originalSentence": "For it to recover its chipmaking <strong>prowess</strong>, Intel will need to break itself apart.",
+      "collocations": [
+        "technical prowess",
+        "military prowess"
+      ]
+    },
+    {
+      "term": "Foundry",
+      "etymology": "From Old French 'fondre' (to melt, to cast). The same root as 'fondue'. Originally for metal casting.",
+      "definition": "(Noun, Tech) A semiconductor fabrication plant that manufactures chips for other companies (known as \"fabless\" companies).",
+      "roleInText": "A central concept. The article argues Intel's future lies in being a pure-play foundry.",
+      "originalSentence": "To build a contract-chipmaking business, known as a “<strong>foundry</strong>”...",
+      "collocations": []
+    },
+    {
+      "term": "Bloated",
+      "etymology": "From Old Norse 'blautr' (soft, wet). The sense of 'swollen' emerged in the 16th century.",
+      "definition": "(Adjective) Excessive in size or amount; inefficiently large.",
+      "roleInText": "Used to criticize Intel's large workforce and organizational inefficiency.",
+      "originalSentence": "He has rightly identified that the company is <strong>bloated</strong>...",
+      "collocations": [
+        "a bloated bureaucracy",
+        "bloated software"
+      ]
+    },
+    {
+      "term": "Dithers",
+      "etymology": "From Middle English 'didderen' (to tremble, shake). The meaning 'to be indecisive' is a figurative extension.",
+      "definition": "(Verb) To be indecisive; to hesitate.",
+      "roleInText": "Urges Intel to act decisively, implying that hesitation is costly.",
+      "originalSentence": "But the longer it <strong>dithers</strong>, the lower the chance of success.",
+      "collocations": []
+    },
+    {
+      "term": "Conglomerate",
+      "etymology": "From Latin 'conglomerare' (to roll together), from 'com-' (together) + 'glomus' (ball).",
+      "definition": "(Noun) A large corporation formed by the merging of separate and diverse firms.",
+      "roleInText": "Used to describe SoftBank, a company with diverse investments, contrasting with a focused company.",
+      "originalSentence": "SoftBank, a Japanese tech <strong>conglomerate</strong>, announced that it would invest $2bn in the company.",
+      "collocations": [
+        "a media conglomerate",
+        "a multinational conglomerate"
+      ]
+    }
+  ]
+}
