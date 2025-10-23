@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import type { SavedWord } from '../types';
+import type { SavedWord, Phonetic } from '../types';
 
 const props = defineProps<{
   word: string;
@@ -26,7 +26,7 @@ const popState = ref(0);
 
 const audioUrl = computed(() => {
   if (!definition.value || !definition.value.phonetics) return null;
-  const phoneticWithAudio = definition.value.phonetics.find((p: any) => p.audio);
+  const phoneticWithAudio = definition.value.phonetics.find((p: Phonetic) => p.audio);
   return phoneticWithAudio ? phoneticWithAudio.audio : null;
 });
 
@@ -89,7 +89,7 @@ watch(() => props.word, (newWord) => {
         <div v-else-if="definition">
           <div class="modal-header">
             <h3>{{ definition.word }}</h3>
-            <p class="phonetic">{{ (definition.phonetics.find(p => p.text) || {}).text }}</p>
+            <p class="phonetic">{{ (definition.phonetics.find((p: Phonetic) => p.text) || {}).text }}</p>
             <button v-if="audioUrl" @click="playAudio" class="audio-btn" title="Listen">
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume-2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
             </button>

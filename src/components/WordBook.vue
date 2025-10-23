@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { onMounted, onBeforeUnmount, watch } from 'vue';
 import type { SavedWord } from '../types';
 
 const props = defineProps<{
   savedWords: SavedWord[];
-  updateWordNote: (word: string, note: string) => void;
 }>();
 
 const emit = defineEmits<{
@@ -16,9 +15,9 @@ const emit = defineEmits<{
 const textareaElements = new Map<string, HTMLTextAreaElement>();
 let resizeObserver: ResizeObserver | null = null;
 
-const setTextareaRef = (el: Element | null, wordId: string) => {
-  if (el) {
-    textareaElements.set(wordId, el as HTMLTextAreaElement);
+const setTextareaRef = (el: Element | ComponentPublicInstance | null, wordId: string) => {
+  if (el instanceof HTMLTextAreaElement) {
+    textareaElements.set(wordId, el);
   } else {
     textareaElements.delete(wordId);
   }
@@ -113,12 +112,12 @@ watch(() => props.savedWords, (newWords, oldWords) => {
       </div>
       <div v-for="(meaning, index) in word.meanings" :key="index" class="meaning-group">
         <p class="part-of-speech">{{ meaning.partOfSpeech }}</p>
-        <p class="definition-text">{{ meaning.definitions[0].definition }}</p>
+        <p class="definition-text">{{ meaning.definitions?.[0]?.definition }}</p>
       </div>
       <div class="notes-section">
         <h4>Notes:</h4>
         <textarea
-          :ref="el => setTextareaRef(el, word.word)"
+          :ref="(el) => setTextareaRef(el, word.word)"
           :data-word-id="word.word"
           class="word-note-textarea"
           :value="word.notes || ''"

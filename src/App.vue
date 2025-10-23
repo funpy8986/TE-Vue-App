@@ -56,10 +56,11 @@ const saveWordsToLocalStorage = () => {
 };
 
 const addWordToBook = (wordToAdd: SavedWord) => {
-  const existingIndex = savedWords.value.findIndex(w => w.word === wordToAdd.word);
-  if (existingIndex !== -1) {
-    // Update existing word, preserving notes if they exist
-    savedWords.value[existingIndex] = { ...wordToAdd, timestamp: Date.now(), notes: savedWords.value[existingIndex].notes || '' };
+  const index = savedWords.value.findIndex(w => w.word === wordToAdd.word);
+  if (index !== -1) {
+    const existingWord = savedWords.value[index];
+    // Update existing word, preserving notes. The ! tells TypeScript we know existingWord is not null here.
+    savedWords.value[index] = { ...wordToAdd, timestamp: Date.now(), notes: existingWord!.notes || '' };
   } else {
     savedWords.value.push({ ...wordToAdd, timestamp: Date.now(), notes: '' });
   }
@@ -70,16 +71,16 @@ const removeWordFromBook = (wordToRemove: string) => {
 };
 
 const updateWordNote = (wordToUpdate: string, newNote: string) => {
-  const wordIndex = savedWords.value.findIndex(w => w.word === wordToUpdate);
-  if (wordIndex !== -1) {
-    savedWords.value[wordIndex].notes = newNote;
+  const word = savedWords.value.find(w => w.word === wordToUpdate);
+  if (word) {
+    word.notes = newNote;
   }
 };
 
 const updateWordNoteDimensions = (wordToUpdate: string, newHeight: number) => {
-  const wordIndex = savedWords.value.findIndex(w => w.word === wordToUpdate);
-  if (wordIndex !== -1) {
-    savedWords.value[wordIndex].noteHeight = newHeight;
+  const word = savedWords.value.find(w => w.word === wordToUpdate);
+  if (word) {
+    word.noteHeight = newHeight;
   }
 };
 
@@ -220,7 +221,7 @@ onMounted(async () => {
 
   // Fetch article data
   try {
-    const response = await fetch('/data/intel-analysis.data.json');
+    const response = await fetch('data/intel-analysis.data.json');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
