@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, watch } from 'vue';
+import { onMounted, onBeforeUnmount, watch, ComponentPublicInstance } from 'vue';
 import type { SavedWord } from '../types';
 
 const props = defineProps<{
