@@ -49,19 +49,19 @@ onUnmounted(() => {
         <a @click.prevent="scrollToSection('#article')">Article</a>
         <a @click.prevent="scrollToSection('#summary')">Core</a>
         <a @click.prevent="scrollToSection('#critical-review')">Review</a>
-        <span @click="emit('toggle-translation')" class="action-toggle">
+        <span @click="emit('toggle-translation')" class="action-toggle" id="translation-toggle">
           {{ showTranslation ? 'Original' : 'Translation' }}
         </span>
-        <span @click="emit('toggle-vocabulary-view')" class="action-toggle">
+        <span @click="emit('toggle-vocabulary-view')" class="action-toggle" id="vocab-toggle">
           Vocab
         </span>
-        <span @click="emit('toggle-wordbook-view')" class="action-toggle">
+        <span @click="emit('toggle-wordbook-view')" class="action-toggle" id="wordbook-toggle">
           Wordbook
         </span>
-        <button v-if="isMobile" class="hamburger-menu" @click="emit('toggle-sidebar')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
       </div>
+      <button v-if="isMobile" class="hamburger-menu" @click="emit('toggle-sidebar')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
     </div>
     <div class="reading-progress-bar" :style="{ width: readingProgress + '%' }"></div>
   </nav>
@@ -89,13 +89,12 @@ onUnmounted(() => {
 
 .navbar-container {
   display: flex;
-  justify-content: flex-start; /* Changed from space-between */
+  justify-content: space-between; /* Align items and hamburger */
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
   height: 60px;
-  /* Removed gap: 40px; as navbar-items will handle spacing */
 }
 
 .navbar-items {
@@ -118,98 +117,21 @@ onUnmounted(() => {
   color: var(--text-color);
 }
 
-/* Removed .navbar-actions styles as content is now in .navbar-items */
-
 .action-toggle {
   cursor: pointer;
   font-family: var(--font-sans);
-  font-size: 15px; /* Match navbar-links a */
+  font-size: 15px;
   font-weight: 600;
-  color: var(--meta-text-color); /* Match navbar-links a */
-  text-decoration: none; /* Ensure no default underline */
+  color: var(--meta-text-color);
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.4em;
-  transition: color 0.2s; /* Match navbar-links a */
+  transition: color 0.2s;
 }
 .action-toggle:hover {
-  color: var(--text-color); /* Match navbar-links a:hover */
-  text-decoration: none; /* Remove underline on hover */
-}
-
-.reading-time {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  color: var(--meta-text-color);
-  font-weight: 500;
-  margin-right: 10px;
-}
-
-.icon {
-  vertical-align: -0.125em;
-}
-
-.navbar-separator {
-  width: 1px;
-  height: 1.2em; /* Adjust height to match text line-height */
-  background-color: var(--border-color);
-  margin: 0 5px; /* Adjust spacing around separator */
-}
-
-/* Copied from App.vue for consistency */
-.theme-switch-wrapper {
-    display: flex;
-    align-items: center;
-}
-.theme-switch {
-    display: inline-block;
-    height: 24px;
-    position: relative;
-    width: 48px;
-}
-.theme-switch input {
-    display:none;
-}
-.slider {
-    background-color: #ccc;
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: .4s;
-    border-radius: 24px;
-}
-.slider:before {
-    background-color: #fff;
-    bottom: 4px;
-    content: "";
-    height: 16px;
-    left: 4px;
-    position: absolute;
-    transition: .4s;
-    width: 16px;
-    border-radius: 50%;
-}
-input:checked + .slider {
-    background-color: var(--accent-color);
-}
-input:checked + .slider:before {
-    transform: translateX(24px);
-}
-.theme-switch.small {
-    height: 20px;
-    width: 40px;
-}
-.theme-switch.small .slider:before {
-    height: 14px;
-    width: 14px;
-    bottom: 3px;
-    left: 3px;
-}
-.theme-switch.small input:checked + .slider:before {
-    transform: translateX(20px);
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 .hamburger-menu {
@@ -228,33 +150,28 @@ input:checked + .slider:before {
   height: 3px;
   background: linear-gradient(to right, color-mix(in srgb, var(--accent-color) 50%, white), var(--accent-color));
   transition: width 0.1s linear;
-  z-index: 101; /* Ensure it's above the navbar's border-bottom */
+  z-index: 101;
 }
 
 @media (max-width: 1023px) {
   .navbar-container {
-    padding: 0 20px;
+    padding: 0 15px;
     height: 56px;
   }
-  .navbar-links {
-    display: none; /* Hide text links on mobile */
+  .navbar-items {
+    width: 100%;
+    justify-content: space-around;
+    gap: 10px;
   }
+  .navbar-items a,
+  .navbar-items .action-toggle {
+    font-size: 14px;
+  }
+
+  #vocab-toggle,
+  #wordbook-toggle,
   .hamburger-menu {
-    display: block;
-  }
-  .action-toggle {
-    font-size: 12px; /* Smaller text on mobile */
-    /* Hide text labels on mobile to save space */
-    font-size: 0;
-  }
-  .action-toggle .icon {
-    font-size: 20px; /* Make icons bigger */
-  }
-  .navbar-actions {
-    gap: 15px;
-  }
-  .theme-switch-wrapper {
-    display: none; /* Hide theme switch on mobile navbar, can be moved to sidebar */
+    display: none;
   }
 }
 </style>
