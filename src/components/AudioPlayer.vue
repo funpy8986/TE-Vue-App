@@ -5,6 +5,10 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
+defineProps<{
+  src: string;
+}>();
+
 const audio = ref<HTMLAudioElement | null>(null);
 const isPlaying = ref(false);
 const currentTime = ref(0);

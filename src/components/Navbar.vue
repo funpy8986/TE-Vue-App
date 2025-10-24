@@ -18,7 +18,7 @@ const emit = defineEmits<{
 }>();
 
 const isNavbarVisible = ref(false);
-let lastScrollY = 0;
+
 
 const handleScroll = () => {
   const currentScrollY = window.scrollY;

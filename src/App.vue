@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick, watch, type Ref } from 'vue'; // Added type Ref and watch
-import type { ArticleData } from './types';
+import { ref, onMounted, nextTick, watch } from 'vue'; // Added type Ref and watch
 import ArticleSkeleton from './components/ArticleSkeleton.vue';
 import VocabCard from './components/VocabCard.vue';
 import DictionaryModal from './components/DictionaryModal.vue';
@@ -88,7 +87,7 @@ watch(showAudioPlayer, (newValue) => {
 });
 const { isSidebarOpen, isMobile, toggleSidebar, openSidebar } = useSidebar();
 const { article, loading, error } = useArticleData();
-const { activeVocabTerm, handleArticleClick, handleGoBack } = useClickableTerm(isMobile, uiStore, openSidebar, articleSectionRef); // Updated
+const { activeVocabTerm, handleArticleClick, handleGoBack } = useClickableTerm(isMobile, uiStore, openSidebar, toggleSidebar, articleSectionRef); // Updated
 const { restoreScrollPosition } = useScrollPersistence(() => !!article.value);
 const { estimatedReadingTime } = useReadingTime(article);
 const { readingProgress } = useReadingProgress(() => !!article.value); // Use useReadingProgress
@@ -229,7 +228,7 @@ onMounted(() => {
   </div>
 
   <Transition name="slide-up">
-    <AudioPlayer v-if="showAudioPlayer" :src="article.audioUrl" @close="toggleAudioPlayer" />
+    <AudioPlayer v-if="showAudioPlayer && article" :src="article.audioUrl" @close="toggleAudioPlayer" />
   </Transition>
 </template>
 

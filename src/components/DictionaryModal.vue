@@ -68,7 +68,7 @@ const handleSaveWord = () => {
     } else {
       wordBookStore.addWordToBook(definition.value);
       toastStore.triggerToast(`'${definition.value.word}' 已添加到生词本！`);
-      uiStore.showWordBook = true; // Switch to word book view
+      uiStore.setActiveSidebarView('wordbook'); // Switch to word book view
     }
   }
 };

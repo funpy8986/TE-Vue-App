@@ -1,4 +1,4 @@
-import { ref, computed, watch, type Ref } from 'vue';
+import { ref, watch, type Ref } from 'vue';
 import type { ArticleData } from '../types';
 
 export function useReadingTime(article: Ref<ArticleData | null>) {

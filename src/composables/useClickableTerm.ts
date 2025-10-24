@@ -2,7 +2,7 @@ import { ref, nextTick } from 'vue';
 import type { Ref } from 'vue'; // Import Ref type
 import type { useUiStore } from '../stores/ui';
 
-export function useClickableTerm(isMobile: Ref<boolean>, uiStore: ReturnType<typeof useUiStore>, openSidebar: () => void, articleSectionRef: Ref<HTMLElement | null>) {
+export function useClickableTerm(isMobile: Ref<boolean>, uiStore: ReturnType<typeof useUiStore>, openSidebar: () => void, toggleSidebar: () => void, articleSectionRef: Ref<HTMLElement | null>) {
   const activeVocabTerm = ref<string | null>(null);
 
   const handleArticleClick = (event: MouseEvent) => {
