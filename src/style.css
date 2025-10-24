@@ -71,6 +71,34 @@ body {
   align-items: flex-start;
 }
 
+.listen-to-article-block {
+  margin-top: 20px;
+}
+
+.listen-to-article-button {
+  background: none;
+  color: var(--meta-text-color);
+  border: none;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+
+.listen-to-article-button:hover {
+  color: var(--accent-color);
+}
+
+.listen-to-article-button svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor; /* Use currentColor to inherit color from parent */
+}
+
 .hamburger-menu {
   display: none; /* Hidden by default */
   background: none;
@@ -91,6 +119,7 @@ main {
 
 .page-header {
     position: relative;
+    margin-bottom: 60px; /* Increased bottom margin for more breathing room */
 }
 
 .page-header h1 {
@@ -99,8 +128,11 @@ main {
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 10px;
-    margin-top: 0; /* Adjust for header-top-row */
+    margin-top: 0;
 }
+
+
+
 
 .page-header p.subtitle {
     font-family: var(--font-serif);
@@ -116,7 +148,39 @@ main {
     margin-bottom: 40px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start; /* Changed from space-between */
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+
+.reading-time-display {
+    margin-left: 15px; /* Add some space between source and reading time */
+    /* Inherit font-family, font-size, color from parent .source-meta */
+}
+
+.theme-toggle-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 15px; /* Space from estimated reading time */
+  color: var(--meta-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.theme-toggle-icon:hover {
+  color: var(--text-color);
+}
+
+
+.source-meta-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px 15px;
 }
 
 h2 {
@@ -160,28 +224,20 @@ h2 {
     font-family: var(--font-serif);
     font-size: 17px;
     margin-bottom: 15px;
-    padding-left: 25px; /* Consistent indentation for list item content */
-    position: relative; /* Required for absolute positioning of icons */
+    padding-left: 5px; /* Consistent indentation as icons are removed */
+    position: relative;
 }
 
 .summary-list li::before {
-    content: '✔';
     position: absolute;
     left: 0;
-    top: 0.25em; /* Align vertically with critical review icon */
-    color: var(--accent-color);
+    top: 0.25em; /* Adjust for vertical alignment */
 }
 
 .critical-review-list li::before {
-    /* content: '🤔'; */ /* Removed emoji */
     position: absolute;
     left: 0;
-}
-
-
-
-aside {
-    width: 100%;
+    top: 0.25em; /* Adjust for vertical alignment */
 }
 
 .sidebar-sticky-container {
@@ -319,15 +375,15 @@ html[data-theme='dark'] .clickable-term:hover {
 }
 
 .critical-review-list li::before {
-    /* content: '🤔'; */ /* Removed emoji */
     position: absolute;
     left: 0;
+    top: 0.25em; /* Adjust for vertical alignment */
 }
 
 
 
-html[data-theme='dark'] .critical-review-list li::before {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>'); /* Feather Icon: help-circle */
+.wordbook-toggle:hover {
+  text-decoration: underline;
 }
 
 
@@ -345,4 +401,25 @@ html[data-theme='dark'] .critical-review-list li::before {
 /* Hide Scrollbar for IE/Edge (legacy) */
 .sidebar-sticky-container {
   -ms-overflow-style: none; /* Hide scrollbar */
+}
+
+/* Modal Fade Transition */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-fade-enter-active .modal-container,
+.modal-fade-leave-active .modal-container {
+  transition: all 0.3s ease;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+.modal-fade-enter-from .modal-container,
+.modal-fade-leave-to .modal-container {
+  transform: scale(0.95);
 }

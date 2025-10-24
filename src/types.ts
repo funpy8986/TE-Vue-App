@@ -41,6 +41,7 @@ export interface ArticleData {
   subtitle:string;
   source: string;
   audioUrl: string;
+  headerImageUrl: string;
   paragraphs: { en: string; zh: string; }[];
   summaryPoints: string[];
   criticalReviewPoints: string[];

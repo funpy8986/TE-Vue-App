@@ -1,190 +1,53 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
-import type { ArticleData, SavedWord } from './types';
+import { ref, onMounted, nextTick, watch, type Ref } from 'vue'; // Added type Ref and watch
+import type { ArticleData } from './types';
+import ArticleSkeleton from './components/ArticleSkeleton.vue';
 import VocabCard from './components/VocabCard.vue';
 import DictionaryModal from './components/DictionaryModal.vue';
 import WordBook from './components/WordBook.vue';
+import Navbar from './components/Navbar.vue';
+import AudioPlayer from './components/AudioPlayer.vue'; // Import custom audio player
+import { useWordBookStore } from './stores/wordBook';
+import { useUiStore } from './stores/ui';
+import { useToastStore } from './stores/toast';
 
-const article = ref<ArticleData | null>(null);
-const loading = ref(true);
-const error = ref<string | null>(null);
+// Composables
+import { useTheme } from './composables/useTheme';
+import { useTranslationToggle } from './composables/useTranslationToggle';
+import { useAudioPlayerToggle } from './composables/useAudioPlayerToggle';
+import { useSidebar } from './composables/useSidebar';
+import { useArticleData } from './composables/useArticleData';
+import { useClickableTerm } from './composables/useClickableTerm';
+import { useScrollPersistence } from './composables/useScrollPersistence';
+import { useReadingTime } from './composables/useReadingTime';
+import { useReadingProgress } from './composables/useReadingProgress'; // Import useReadingProgress
 
-const SAVE_KEY = 'article-scroll-position';
-const WORD_BOOK_KEY = 'my-word-book';
-
-// Debounce function to limit how often a function is called
-const debounce = (func: Function, delay: number) => {
-  let timeout: number;
-  return function(this: any, ...args: any[]) {
-    const context = this;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(context, args), delay);
-  };
+// --- Transition Hooks for expanding translation ---
+const onEnter = (el: Element) => {
+  const htmlEl = el as HTMLElement;
+  htmlEl.style.height = 'auto';
+  const height = getComputedStyle(htmlEl).height;
+  htmlEl.style.height = '0';
+  // Force repaint before starting the transition
+  getComputedStyle(htmlEl);
+  setTimeout(() => {
+    htmlEl.style.height = height;
+  });
 };
 
-const saveScrollPosition = () => {
-  if (article.value) {
-    localStorage.setItem(SAVE_KEY, window.scrollY.toString());
-  }
+const onAfterEnter = (el: Element) => {
+  const htmlEl = el as HTMLElement;
+  htmlEl.style.height = 'auto';
 };
 
-const restoreScrollPosition = () => {
-  const savedScrollY = localStorage.getItem(SAVE_KEY);
-  if (savedScrollY) {
-    window.scrollTo(0, parseInt(savedScrollY, 10));
-  }
-};
-
-// --- Word Book Logic ---
-const savedWords = ref<SavedWord[]>([]);
-const showWordBook = ref(false);
-
-const loadWordsFromLocalStorage = () => {
-  const storedWords = localStorage.getItem(WORD_BOOK_KEY);
-  if (storedWords) {
-    try {
-      savedWords.value = JSON.parse(storedWords);
-    } catch (e) {
-      console.error("Error parsing saved words from localStorage", e);
-      savedWords.value = [];
-    }
-  }
-};
-
-const saveWordsToLocalStorage = () => {
-  localStorage.setItem(WORD_BOOK_KEY, JSON.stringify(savedWords.value));
-};
-
-const addWordToBook = (wordToAdd: SavedWord) => {
-  const index = savedWords.value.findIndex(w => w.word === wordToAdd.word);
-  if (index !== -1) {
-    const existingWord = savedWords.value[index];
-    // Update existing word, preserving notes. The ! tells TypeScript we know existingWord is not null here.
-    savedWords.value[index] = { ...wordToAdd, timestamp: Date.now(), notes: existingWord!.notes || '' };
-  } else {
-    savedWords.value.push({ ...wordToAdd, timestamp: Date.now(), notes: '' });
-  }
-};
-
-const removeWordFromBook = (wordToRemove: string) => {
-  savedWords.value = savedWords.value.filter(w => w.word !== wordToRemove);
-};
-
-const updateWordNote = (wordToUpdate: string, newNote: string) => {
-  const word = savedWords.value.find(w => w.word === wordToUpdate);
-  if (word) {
-    word.notes = newNote;
-  }
-};
-
-const updateWordNoteDimensions = (wordToUpdate: string, newHeight: number) => {
-  const word = savedWords.value.find(w => w.word === wordToUpdate);
-  if (word) {
-    word.noteHeight = newHeight;
-  }
-};
-
-const toggleWordBook = () => {
-  showWordBook.value = !showWordBook.value;
-};
-
-// --- Toast Notification Logic ---
-const showToast = ref(false);
-const toastMessage = ref('');
-let toastTimeout: number | undefined;
-
-const triggerToast = (message: string) => {
-  toastMessage.value = message;
-  showToast.value = true;
-
-  if (toastTimeout) {
-    clearTimeout(toastTimeout);
-  }
-  toastTimeout = setTimeout(() => {
-    showToast.value = false;
-    toastMessage.value = '';
-  }, 3000); // Toast disappears after 3 seconds
-};
-
-// --- Theme Switch Logic ---
-const theme = ref<'light' | 'dark'>('light');
-const setTheme = (newTheme: 'light' | 'dark') => {
-  theme.value = newTheme;
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
-};
-const toggleTheme = () => {
-  setTheme(theme.value === 'light' ? 'dark' : 'light');
-};
-
-// --- Translation Toggle Logic ---
-const showTranslation = ref(false);
-const toggleTranslation = () => {
-  showTranslation.value = !showTranslation.value;
-};
-
-// --- Audio Player Toggle Logic ---
-const showAudioPlayer = ref(false);
-const toggleAudioPlayer = () => {
-  showAudioPlayer.value = !showAudioPlayer.value;
-};
-
-// --- Clickable Term Logic ---
-const activeVocabTerm = ref<string | null>(null);
-
-// --- Sidebar Logic ---
-const isSidebarOpen = ref(false);
-const isMobile = ref(window.innerWidth <= 1023);
-
-const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value;
-};
-
-const handleResize = () => {
-  isMobile.value = window.innerWidth <= 1023;
-  if (!isMobile.value) {
-    isSidebarOpen.value = false; // Close sidebar when switching to desktop view
-  }
-};
-
-const handleArticleClick = (event: MouseEvent) => {
-  const target = event.target as HTMLElement;
-  const termElement = target.closest('.clickable-term');
-
-  if (termElement && termElement instanceof HTMLElement) {
-    const term = termElement.dataset.term;
-    if (term) {
-      if (isMobile.value) {
-        isSidebarOpen.value = true;
-      }
-      const lowerCaseTerm = term.toLowerCase();
-      const targetId = `vocab-${lowerCaseTerm}`;
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        activeVocabTerm.value = lowerCaseTerm; // Set active term
-        // Use nextTick to ensure sidebar is open before scrolling
-        nextTick(() => {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          targetElement.classList.add('highlight');
-          setTimeout(() => {
-            targetElement.classList.remove('highlight');
-          }, 2000);
-        });
-      }
-    }
-  }
-};
-
-// --- Go Back Logic ---
-const handleGoBack = () => {
-  if (isMobile.value) {
-    isSidebarOpen.value = false;
-  }
-  const articleSection = document.getElementById('article');
-  if (articleSection) {
-    articleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    activeVocabTerm.value = null; // Reset active term when going back
-  }
+const onLeave = (el: Element) => {
+  const htmlEl = el as HTMLElement;
+  htmlEl.style.height = getComputedStyle(htmlEl).height;
+  // Force repaint to make sure the animation is triggered correctly.
+  getComputedStyle(htmlEl);
+  setTimeout(() => {
+    htmlEl.style.height = '0';
+  });
 };
 
 // --- Dictionary Modal Logic ---
@@ -193,10 +56,15 @@ const selectedWord = ref('');
 const handleTextSelection = () => {
   const selection = window.getSelection();
   const text = selection?.toString().trim().toLowerCase();
+  console.log('handleTextSelection triggered. Selected text:', text);
+  console.log('Selection object:', selection);
 
   if (text && text.length > 1 && text.split(' ').length === 1) {
     selectedWord.value = text;
     isModalVisible.value = true;
+    console.log('Modal should be visible for word:', selectedWord.value);
+  } else {
+    console.log('Conditions not met for modal:', text);
   }
 };
 
@@ -204,116 +72,97 @@ const closeModal = () => {
   isModalVisible.value = false;
 };
 
-const debouncedSaveScroll = debounce(saveScrollPosition, 200);
+const articleSectionRef = ref<HTMLElement | null>(null); // Added
 
-onMounted(async () => {
-  // Initialize theme
-  const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-  const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+// Store calls
+const uiStore = useUiStore(); // Added
+const toastStore = useToastStore(); // Added
+const wordBookStore = useWordBookStore(); // Re-added
 
-  if (savedTheme) {
-    setTheme(savedTheme);
-  } else if (userPrefersDark) {
-    setTheme('dark');
-  }
-
-  loadWordsFromLocalStorage(); // Load saved words
-
-  // Fetch article data
-  try {
-    const response = await fetch('data/intel-analysis.data.json');
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    article.value = await response.json();
-    if (article.value) {
-
-    }
-    // Restore scroll position after article content is rendered
-    nextTick(() => {
-      // Add a small delay to ensure all content is rendered and layout is stable
-      setTimeout(() => {
-        restoreScrollPosition();
-      }, 100); // 100ms delay
-    });
-  } catch (e: any) {
-    error.value = e.message;
-  } finally {
-    loading.value = false;
-  }
-
-  // Add scroll and resize event listeners
-  window.addEventListener('scroll', debouncedSaveScroll);
-  window.addEventListener('resize', handleResize);
+// Composable calls
+const { theme, toggleTheme } = useTheme();
+const { showTranslation, toggleTranslation } = useTranslationToggle();
+const { showAudioPlayer, toggleAudioPlayer } = useAudioPlayerToggle();
+watch(showAudioPlayer, (newValue) => {
+  console.log('showAudioPlayer state changed to:', newValue);
 });
+const { isSidebarOpen, isMobile, toggleSidebar, openSidebar } = useSidebar();
+const { article, loading, error } = useArticleData();
+const { activeVocabTerm, handleArticleClick, handleGoBack } = useClickableTerm(isMobile, uiStore, openSidebar, articleSectionRef); // Updated
+const { restoreScrollPosition } = useScrollPersistence(() => !!article.value);
+const { estimatedReadingTime } = useReadingTime(article);
+const { readingProgress } = useReadingProgress(() => !!article.value); // Use useReadingProgress
 
-onUnmounted(() => {
-  // Clean up event listeners
-  window.removeEventListener('scroll', debouncedSaveScroll);
-  window.removeEventListener('resize', handleResize);
+watch(article, (newArticle) => {
+  console.log('App.vue: Article data changed:', newArticle);
+  console.log('App.vue: Estimated Reading Time:', estimatedReadingTime.value);
+}, { immediate: true });
+
+onMounted(() => {
+  // Restore scroll position after article content is rendered
+  nextTick(() => {
+    // Add a small delay to ensure all content is rendered and layout is stable
+    setTimeout(() => {
+      restoreScrollPosition();
+    }, 100); // 100ms delay
+  });
 });
-
-watch(savedWords, saveWordsToLocalStorage, { deep: true });
 </script>
 
 <template>
-  <div v-if="loading" class="loader-container">
-    <div class="loader"></div>
-    <p>Loading article...</p>
-  </div>
+  <ArticleSkeleton v-if="loading" />
   <div v-else-if="error" class="error-container">
     <p>Error loading article: {{ error }}</p>
   </div>
   <div v-else-if="article" class="container" :class="{ 'sidebar-open': isSidebarOpen && isMobile }">
+    <Navbar
+      :theme="theme"
+      :show-translation="showTranslation"
+      :show-audio-player="showAudioPlayer"
+      :active-sidebar-view="uiStore.activeSidebarView"
+      :is-mobile="isMobile"
+      :reading-progress="readingProgress"
+      @toggle-theme="toggleTheme"
+      @toggle-translation="toggleTranslation"
+      @toggle-audio-player="toggleAudioPlayer"
+      @toggle-vocabulary-view="uiStore.toggleSidebarView('vocabulary')"
+      @toggle-wordbook-view="uiStore.toggleSidebarView('wordbook')"
+      @toggle-sidebar="toggleSidebar"
+    />
     <div v-if="isSidebarOpen && isMobile" class="sidebar-overlay" @click="toggleSidebar"></div>
     <main>
       <header class="page-header">
         <div class="header-top-row">
           <h1>{{ article.title }}</h1>
-          <button v-if="isMobile" class="hamburger-menu" @click="toggleSidebar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-          </button>
         </div>
+
         <p class="subtitle">{{ article.subtitle }}</p>
         <div class="source-meta">
-          <div>
-            <span>Source: {{ article.source }}</span>
-            <span @click="toggleTranslation" class="translation-toggle">
-              |<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon feather feather-file-text" style="margin-right: 0.2em;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>{{ showTranslation ? '原文' : '译文' }}
-            </span>
-                        <span @click="toggleAudioPlayer" class="audio-toggle">
-                          |<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon feather feather-headphones" style="margin-right: 0.2em;"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>{{ showAudioPlayer ? '关闭' : '收听' }}
-                        </span>
-            <span @click="toggleWordBook" class="wordbook-toggle">
-              |<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="icon" style="margin-right: 0.2em;">
-                <path d="M1 2.828c.885-.37 2.154-.71 3.573-.884C7.456 1.158 9.467 1.5 11.318 1.7C12.613 1.867 13.45 2.13 14 2.472v11.015c-.485-.342-1.322-.605-2.617-.77C9.467 13.801 7.456 14.142 4.573 14.416c-1.419.174-2.688.514-3.573.884V2.828zm7.5 11.172c2.2.22 4.263.188 5.468-.182V2.828c-.08-.043-.109-.06-.192-.148l-.005-.005L12.1 2.568c-1.154-.17-2.362-.356-3.598-.137V14zm-6 0C2.5 14.188 3.737 14.002 4.891 13.832L5 13.828V3.362c-1.154.17-2.362.356-3.598.137V14z"/>
-              </svg>{{ showWordBook ? '重点词汇' : '生词本' }}
-            </span>
-          </div>
-           <!-- Theme Switcher -->
-          <div class="theme-switch-wrapper">
-            <span class="theme-switch-label">Dark mode</span>
-            <label class="theme-switch small" for="theme-toggle">
-              <input type="checkbox" id="theme-toggle" :checked="theme === 'dark'" @change="toggleTheme" />
-              <span class="slider"></span>
-            </label>
-          </div>
+          <span>Source: {{ article.source }}</span>
+          <span v-if="estimatedReadingTime" class="reading-time-display">{{ estimatedReadingTime }} min read</span>
+          <button @click="toggleTheme" class="theme-toggle-icon">
+            <svg v-if="theme === 'light'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
         </div>
       </header>
 
-      <section v-if="showAudioPlayer" id="audio-player">
-        <audio controls style="width: 100%; border-radius: 5px; border: 1px solid var(--border-color);">
-          <source :src="article.audioUrl" type="audio/mpeg">
-          Your browser does not support the audio element.
-        </audio>
-      </section>
-
-      <section id="article">
-        <h2>Article Text</h2>
-        <div class="article-body" @click="handleArticleClick" @mouseup="handleTextSelection">
+      <section id="article" ref="articleSectionRef">
+        <div v-if="article.audioUrl" class="listen-to-article-block">
+          <button @click="toggleAudioPlayer" class="listen-to-article-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+            <span>Listen to Article</span>
+          </button>
+        </div>
+        <div class="article-body" @click="handleArticleClick" @mouseup="handleTextSelection" @touchend="handleTextSelection">
           <div v-for="(p, index) in article.paragraphs" :key="index" class="paragraph-pair">
             <p class="lang-en" v-html="p.en"></p>
-            <Transition name="fade">
+            <Transition
+              name="expand"
+              @enter="onEnter"
+              @after-enter="onAfterEnter"
+              @leave="onLeave"
+            >
               <p v-if="showTranslation" class="lang-zh">{{ p.zh }}</p>
             </Transition>
           </div>
@@ -342,66 +191,50 @@ watch(savedWords, saveWordsToLocalStorage, { deep: true });
     <aside>
       <div class="sidebar-sticky-container">
         <div class="sidebar-content">
-          <h2 v-if="!showWordBook" id="vocab-analysis">Vocabulary Analysis</h2>
-          <h2 v-else>My Word Book</h2>
+          <h2 v-show="uiStore.activeSidebarView === 'vocabulary'" id="vocab-analysis">Vocabulary Analysis</h2>
+          <h2 v-show="uiStore.activeSidebarView === 'wordbook'">My Word Book</h2>
           <div class="vocab-list">
-            <VocabCard
-              v-if="!showWordBook"
-              v-for="vocab in article.vocabulary"
-              :key="vocab.term"
-              :vocabulary="vocab"
-              @go-back="handleGoBack"
-              :isActive="activeVocabTerm === vocab.term.toLowerCase()"
-            />
+            <div v-show="uiStore.activeSidebarView === 'vocabulary'">
+              <VocabCard
+                v-for="vocab in article.vocabulary"
+                :key="vocab.term"
+                :vocabulary="vocab"
+                @go-back="handleGoBack"
+                :isActive="activeVocabTerm === vocab.term.toLowerCase()"
+              />
+            </div>
             <WordBook
-              v-else
-              :savedWords="savedWords"
-              @remove-word="removeWordFromBook"
-              @update-note="updateWordNote"
-              @update-note-height="updateWordNoteDimensions"
+              v-show="uiStore.activeSidebarView === 'wordbook'"
+              :savedWords="wordBookStore.savedWords"
+              @remove-word="wordBookStore.removeWordFromBook"
+              @update-note="wordBookStore.updateWordNote"
+              @update-note-height="wordBookStore.updateWordNoteDimensions"
             />
           </div>
         </div>
       </div>
     </aside>
 
-    <DictionaryModal
-      v-if="isModalVisible"
-      :word="selectedWord"
-      @close="closeModal"
-      :addWordToBook="addWordToBook"
-      :triggerToast="triggerToast"
-      :savedWords="savedWords"
-      :removeWordFromBook="removeWordFromBook"
-    />
+    <Transition name="modal-fade">
+      <DictionaryModal
+        v-if="isModalVisible"
+        :word="selectedWord"
+        @close="closeModal"
+      />
+    </Transition>
 
-    <div v-if="showToast" class="toast-notification">
-      {{ toastMessage }}
+    <div v-if="toastStore.showToast" class="toast-notification">
+      {{ toastStore.toastMessage }}
     </div>
   </div>
+
+  <Transition name="slide-up">
+    <AudioPlayer v-if="showAudioPlayer" :src="article.audioUrl" @close="toggleAudioPlayer" />
+  </Transition>
 </template>
 
 <style scoped>
-.loader-container, .error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  font-size: 1.5em;
-}
-.loader {
-  border: 4px solid var(--border-color);
-  border-top: 4px solid var(--accent-color);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+
 
 .translation-toggle, .audio-toggle, .wordbook-toggle {
   cursor: pointer;
@@ -496,14 +329,26 @@ input:checked + .slider:before {
   animation: fadeinout 3s forwards;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+.expand-enter-active,
+.expand-leave-active {
+  transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  overflow: hidden;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.expand-enter-from,
+.expand-leave-to {
+  height: 0;
   opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.4s ease-out;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateX(-50%) translateY(100%);
 }
 
 @keyframes fadeinout {

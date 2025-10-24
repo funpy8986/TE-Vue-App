@@ -1,16 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, watch, type ComponentPublicInstance } from 'vue';
-import type { SavedWord } from '../types';
+import { useWordBookStore } from '../stores/wordBook'; // Added
 
-const props = defineProps<{
-  savedWords: SavedWord[];
-}>();
-
-const emit = defineEmits<{
-  (e: 'remove-word', word: string): void;
-  (e: 'update-note', word: string, note: string): void;
-  (e: 'update-note-height', word: string, height: number): void;
-}>();
+const wordBookStore = useWordBookStore(); // Added
 
 const textareaElements = new Map<string, HTMLTextAreaElement>();
 let resizeObserver: ResizeObserver | null = null;
@@ -23,8 +15,10 @@ const setTextareaRef = (el: Element | ComponentPublicInstance | null, wordId: st
   }
 };
 
+import type { SavedWord } from '../types'; // Re-added
+
 const removeWord = (word: string) => {
-  emit('remove-word', word);
+  wordBookStore.removeWordFromBook(word);
 };
 
 const getPhoneticText = (word: SavedWord) => {
@@ -45,7 +39,7 @@ const playAudio = (audioUrl: string) => {
 
 const handleNoteInput = (word: string, event: Event) => {
   const target = event.target as HTMLTextAreaElement;
-  emit('update-note', word, target.value);
+  wordBookStore.updateWordNote(word, target.value);
 };
 
 onMounted(() => {
@@ -55,9 +49,9 @@ onMounted(() => {
       const wordId = textarea.dataset.wordId;
       if (wordId) {
         const newHeight = textarea.offsetHeight;
-        const word = props.savedWords.find(w => w.word === wordId);
+        const word = wordBookStore.savedWords.find(w => w.word === wordId);
         if (word && newHeight !== word.noteHeight) {
-          emit('update-note-height', wordId, newHeight);
+          wordBookStore.updateWordNoteDimensions(wordId, newHeight);
         }
       }
     }
@@ -75,7 +69,7 @@ onBeforeUnmount(() => {
   }
 });
 
-watch(() => props.savedWords, (newWords, oldWords) => {
+watch(() => wordBookStore.savedWords, (newWords, oldWords) => {
   if (!resizeObserver) return;
 
   // Unobserve old elements
@@ -93,13 +87,12 @@ watch(() => props.savedWords, (newWords, oldWords) => {
       resizeObserver?.observe(textarea);
     }
   });
-}, { deep: true });
-</script>
+}, { deep: true });</script>
 
 <template>
   <div class="word-book-list">
-    <p v-if="savedWords.length === 0" class="empty-message">Your word book is empty. Add words from the dictionary modal!</p>
-    <div v-for="word in savedWords" :key="word.word" class="word-book-item">
+    <p v-if="wordBookStore.savedWords.length === 0" class="empty-message">Your word book is empty. Add words from the dictionary modal!</p>
+    <div v-for="word in wordBookStore.savedWords" :key="word.word" class="word-book-item">
       <div class="item-header">
         <h3>{{ word.word }}</h3>
         <p class="phonetic">{{ getPhoneticText(word) }}</p>

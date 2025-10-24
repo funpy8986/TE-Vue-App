@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import type { SavedWord, Phonetic } from '../types';
+import type { Phonetic } from '../types';
+import { useWordBookStore } from '../stores/wordBook'; // Added
+import { useToastStore } from '../stores/toast'; // Added
+import { useUiStore } from '../stores/ui';
+
+const wordBookStore = useWordBookStore(); // Added
+const toastStore = useToastStore(); // Added
+const uiStore = useUiStore();
 
 const props = defineProps<{
   word: string;
-  addWordToBook: (word: SavedWord) => void; // New prop
-  triggerToast: (message: string) => void; // New prop
-  savedWords: SavedWord[]; // New prop
-  removeWordFromBook: (word: string) => void; // New prop
 }>();
 
 const emit = defineEmits<{
@@ -19,7 +22,7 @@ const error = ref<string | null>(null);
 const definition = ref<any>(null);
 
 const isWordSaved = computed(() => {
-  return definition.value && props.savedWords.some(w => w.word === definition.value.word);
+  return definition.value && wordBookStore.savedWords.some(w => w.word === definition.value.word);
 });
 
 const popState = ref(0);
@@ -60,11 +63,12 @@ const handleSaveWord = () => {
   if (definition.value) {
     popState.value++; // Trigger animation
     if (isWordSaved.value) {
-      props.removeWordFromBook(definition.value.word);
-      props.triggerToast(`'${definition.value.word}' 已从生词本中移除！`);
+      wordBookStore.removeWordFromBook(definition.value.word);
+      toastStore.triggerToast(`'${definition.value.word}' 已从生词本中移除！`);
     } else {
-      props.addWordToBook(definition.value);
-      props.triggerToast(`'${definition.value.word}' 已添加到生词本！`);
+      wordBookStore.addWordToBook(definition.value);
+      toastStore.triggerToast(`'${definition.value.word}' 已添加到生词本！`);
+      uiStore.showWordBook = true; // Switch to word book view
     }
   }
 };
