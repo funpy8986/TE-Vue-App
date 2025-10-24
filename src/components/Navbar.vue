@@ -89,7 +89,7 @@ onUnmounted(() => {
 
 .navbar-container {
   display: flex;
-  justify-content: space-between; /* Align items and hamburger */
+  justify-content: space-between;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
@@ -100,38 +100,24 @@ onUnmounted(() => {
 .navbar-items {
   display: flex;
   align-items: center;
-  gap: 30px; /* Consistent gap for all items */
+  gap: 30px;
 }
 
-.navbar-items a {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--meta-text-color);
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.navbar-links a:hover {
-  color: var(--text-color);
-}
-
+.navbar-items a,
 .action-toggle {
-  cursor: pointer;
   font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 600;
   color: var(--meta-text-color);
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.4em;
+  cursor: pointer;
   transition: color 0.2s;
+  white-space: nowrap;
 }
+
+.navbar-items a:hover,
 .action-toggle:hover {
   color: var(--text-color);
-  text-decoration: none;
 }
 
 .hamburger-menu {
@@ -155,23 +141,27 @@ onUnmounted(() => {
 
 @media (max-width: 1023px) {
   .navbar-container {
-    padding: 0 15px;
+    padding: 0 10px;
     height: 56px;
   }
   .navbar-items {
-    width: 100%;
-    justify-content: space-around;
-    gap: 10px;
+    gap: 12px; /* Reduced gap for mobile */
+    flex-shrink: 1;
+    overflow: hidden;
   }
   .navbar-items a,
-  .navbar-items .action-toggle {
-    font-size: 14px;
+  .action-toggle {
+    font-size: 12px; /* Reduced font size for mobile */
   }
 
+  /* Hide specific toggles */
   #vocab-toggle,
-  #wordbook-toggle,
-  .hamburger-menu {
+  #wordbook-toggle {
     display: none;
   }
+
+  /* Show hamburger menu */
+  .hamburger-menu {
+    display: block;
+  }
 }
-</style>
